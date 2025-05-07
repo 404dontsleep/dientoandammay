@@ -40,4 +40,10 @@ const borrowSchema = new mongoose.Schema(
   }
 );
 
+borrowSchema.index({ borrowDate: 1 });
+borrowSchema.index({ returnDate: 1 });
+borrowSchema.index({ user: 1, status: 1 });
+borrowSchema.index({ book: 1, status: 1 });
+borrowSchema.index({ dueDate: 1, status: 1 });
+
 module.exports = mongoose.model('Borrow', borrowSchema);

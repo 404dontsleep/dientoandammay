@@ -27,6 +27,7 @@ app.use(express.static("public"));
 app.use("/api/books", bookRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/borrows", borrowRoutes);
+app.use("/api/statistics", statisticsRoutes);
 
 // Wildcard route cho single-page app
 app.get("*", (req, res) => {
