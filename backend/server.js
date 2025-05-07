@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const bookRoutes = require("./routes/bookRoutes");
 const userRoutes = require("./routes/userRoutes");
+const borrowRoutes = require("./routes/borrowRoutes");
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(express.static("public"));
 // Routes
 app.use("/api/books", bookRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/borrows", borrowRoutes);
 
 // Wildcard route cho single-page app
 app.get("*", (req, res) => {
