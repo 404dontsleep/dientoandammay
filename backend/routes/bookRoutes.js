@@ -74,12 +74,15 @@ router.get('/', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
+    const search = req.query.search || "";
 
-    const books = await Book.find()
-      .sort({ createdAt: -1 })
+    const books = await Book.find({title: {$regex: search, $options: "i"}})
+      .sort({createdAt: -1})
       .skip(skip)
       .limit(limit);
-    const total = await Book.countDocuments();
+    const total = await Book.countDocuments({
+      title: {$regex: search, $options: "i"},
+    });
 
     res.json({
       books,
