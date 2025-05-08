@@ -55,12 +55,25 @@ router.get("/", async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
+    const search = req.query.search || "";
 
-    const users = await User.find()
-      .sort({ createdAt: -1 })
+    const users = await User.find({
+      $or: [
+        {name: {$regex: search, $options: "i"}},
+        {email: {$regex: search, $options: "i"}},
+        {phone: {$regex: search, $options: "i"}},
+      ],
+    })
+      .sort({createdAt: -1})
       .skip(skip)
       .limit(limit);
-    const total = await User.countDocuments();
+    const total = await User.countDocuments({
+      $or: [
+        {name: {$regex: search, $options: "i"}},
+        {email: {$regex: search, $options: "i"}},
+        {phone: {$regex: search, $options: "i"}},
+      ],
+    });
 
     res.json({
       users,
@@ -69,22 +82,28 @@ router.get("/", async (req, res) => {
       pages: Math.ceil(total / limit),
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({message: error.message});
   }
 });
 
 // READ - Chi tiết người dùng
 router.get("/:id", async (req, res) => {
   try {
-    const { id } = req.params;
-    isValidObjectId(id, res);
+    const {id} = req.params;
+
+    // Kiểm tra ID hợp lệ trước khi truy vấn
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({message: "ID không hợp lệ"});
+    }
+
     const user = await User.findById(id);
     if (!user) {
-      return res.status(404).json({ message: "Không tìm thấy người dùng" });
+      return res.status(404).json({message: "Không tìm thấy người dùng"});
     }
-    res.json(user);
+
+    return res.json(user);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({message: error.message});
   }
 });
 

@@ -18,32 +18,32 @@ export type BookResponse = {
 };
 
 export const getBooks = async (page = 1, limit = 10, search = ''): Promise<BookResponse> => {
-  const response = await axiosInstance.get(`/?page=${page}&limit=${limit}&search=${search}`);
+  const response = await axiosInstance.get(`/books?page=${page}&limit=${limit}&search=${search}`);
   return response.data;
 };
 
 export const getBookById = async (id: string): Promise<Book> => {
-  const response = await axiosInstance.get(`/${id}`);
+  const response = await axiosInstance.get(`/books/${id}`);
   return response.data;
 };
 
 export const searchBooks = async (keyword: string): Promise<Book[]> => {
-  const response = await axiosInstance.get(`/search?title=${keyword}`);
+  const response = await axiosInstance.get(`/books/search?title=${keyword}`);
   return response.data;
 };
 
 export const addBook = async (book: Omit<Book, '_id'>) => {
-  const response = await axiosInstance.post('/', book);
+  const response = await axiosInstance.post('/books', book);
   return response.data;
 };
 
 export const updateBook = async (id: string, book: Partial<Book>) => {
-  const response = await axiosInstance.put(`/${id}`, book);
+  const response = await axiosInstance.put(`/books/${id}`, book);
   return response.data;
 };
 
 export const deleteBook = async (id: string) => {
-  const response = await axiosInstance.delete(`/${id}`);
+  const response = await axiosInstance.delete(`/books/${id}`);
   return response.data;
 };
 
