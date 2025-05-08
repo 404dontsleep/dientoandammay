@@ -61,12 +61,15 @@ export default function AddUser() {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-            >
-              Thêm người dùng
-            </Button>
+            <div className="flex justify-end">
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+              >
+                Thêm người dùng
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </Card>

@@ -1,0 +1,23 @@
+### Thống kê mượn/trả sách
+GET http://localhost:5000/api/statistics/borrows
+Content-Type: application/json
+
+### Thống kê mượn/trả sách với tham số
+GET http://localhost:5000/api/statistics/borrows?startDate=2024-01-01&endDate=2024-03-20&groupBy=month
+Content-Type: application/json
+
+### Thống kê theo sách
+GET http://localhost:5000/api/statistics/books
+Content-Type: application/json
+
+### Thống kê theo sách với tham số
+GET http://localhost:5000/api/statistics/books?startDate=2024-01-01&endDate=2024-03-20
+Content-Type: application/json
+
+### Thống kê theo bạn đọc
+GET http://localhost:5000/api/statistics/users
+Content-Type: application/json
+
+### Thống kê theo bạn đọc với tham số
+GET http://localhost:5000/api/statistics/users?startDate=2024-01-01&endDate=2024-03-20
+Content-Type: application/json

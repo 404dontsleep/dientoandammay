@@ -11,6 +11,11 @@ import ListUsers from './pages/users/list';
 import ViewUser from './pages/users/view';
 import EditUser from './pages/users/edit';
 import Users from './pages/users';
+import Borrows from './pages/borrows';
+import ListBorrows from './pages/borrows/list';
+import AddBorrow from './pages/borrows/add';
+import ViewBorrow from './pages/borrows/view';
+import Stats from './pages/stats';
 function App() {
   return (
     <Routes>
@@ -61,6 +66,26 @@ function App() {
         <Route
           path="/users/edit/:id"
           element={<EditUser />}
+        />
+        <Route
+          path="/borrows"
+          element={<Borrows />}
+        />
+        <Route
+          path="/borrows/list"
+          element={<ListBorrows />}
+        />
+        <Route
+          path="/borrows/add"
+          element={<AddBorrow />}
+        />
+        <Route
+          path="/borrows/:id"
+          element={<ViewBorrow />}
+        />
+        <Route
+          path="/stats"
+          element={<Stats />}
         />
       </Route>
     </Routes>

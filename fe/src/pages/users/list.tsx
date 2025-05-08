@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as userApi from '../../api/userApi';
 import useDebounce from '../../hooks/useDebounce';
+import { PencilIcon, TrashIcon } from 'lucide-react';
 export default function ListUsers() {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,8 +59,9 @@ export default function ListUsers() {
             color="primary"
             variant="solid"
             onClick={() => navigate(`/users/edit/${record._id}`)}
+            shape="round"
           >
-            Sửa
+            <PencilIcon />
           </Button>
           <Popconfirm
             title="Xóa người dùng"
@@ -71,8 +73,9 @@ export default function ListUsers() {
             <Button
               variant="dashed"
               color="danger"
+              shape="round"
             >
-              Xóa
+              <TrashIcon />
             </Button>
           </Popconfirm>
         </div>
@@ -83,6 +86,7 @@ export default function ListUsers() {
   return (
     <section className="flex flex-col mx-auto container">
       <Table
+        size="small"
         title={() => (
           <div className="flex justify-between items-center">
             <Input
@@ -92,6 +96,7 @@ export default function ListUsers() {
             />
             <Button
               type="primary"
+              size="large"
               onClick={() => navigate('/users/add')}
             >
               Thêm người dùng

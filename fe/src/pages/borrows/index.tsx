@@ -4,25 +4,25 @@ import CardItem from '../../components/CardItem';
 
 const cardItems = [
   {
-    title: 'Thêm người dùng',
-    description: 'Thêm người dùng mới vào hệ thống',
-    image: 'https://cdn-icons-png.flaticon.com/512/9194/9194865.png ',
-    link: '/users/add',
+    title: 'Mượn sách',
+    description: 'Tạo phiếu mượn sách',
+    image: '/literacy.png',
+    link: '/borrows/add',
     backgroundColor: '#fff7ff',
   },
   {
-    title: 'Danh sách người dùng',
-    description: 'Xem danh sách người dùng trong hệ thống',
-    image: 'https://cdn-icons-png.flaticon.com/512/6233/6233829.png ',
-    link: '/users/list',
+    title: 'Danh sách mượn sách',
+    description: 'Xem danh sách các phiếu mượn sách',
+    image: 'https://cdn-icons-png.flaticon.com/512/2417/2417791.png ',
+    link: '/borrows/list',
     backgroundColor: '#fff7ff',
   },
 ];
 
-export default function Users() {
+export default function Borrows() {
   const { setName } = useNavStore();
   useEffect(() => {
-    setName('Quản lý người dùng');
+    setName('Quản lý mượn sách');
   }, []);
   return (
     <section className="flex flex-col mx-auto container">

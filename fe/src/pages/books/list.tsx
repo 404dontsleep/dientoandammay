@@ -3,6 +3,7 @@ import bookApi from '../../api/bookApi';
 import { App, Button, Input, Popconfirm, Table } from 'antd';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PencilIcon, Search, TrashIcon } from 'lucide-react';
 
 export default function ListBooks() {
   const [page, setPage] = useState(1);
@@ -19,7 +20,7 @@ export default function ListBooks() {
       bookApi
         .deleteBook(id)
         .then(() => {
-          message.success('Book deleted successfully');
+          message.success('Xóa sách thành công');
           mutate(`/books?page=${page}&limit=10`);
         })
         .finally(() => {
@@ -34,27 +35,27 @@ export default function ListBooks() {
   const columns = useMemo(
     () => [
       {
-        title: 'Title',
+        title: 'Tên sách',
         dataIndex: 'title',
       },
       {
-        title: 'Author',
+        title: 'Tác giả',
         dataIndex: 'author',
       },
       {
-        title: 'Published Year',
+        title: 'Năm xuất bản',
         dataIndex: 'publishedYear',
       },
       {
-        title: 'Quantity',
+        title: 'Số lượng',
         dataIndex: 'quantity',
       },
       {
-        title: 'Available',
+        title: 'Số lượng còn lại',
         dataIndex: 'available',
       },
       {
-        title: 'Action',
+        title: 'Hành động',
         dataIndex: 'action',
         render: (_text: string, record: { _id: string }) => (
           <div className="flex gap-2">
@@ -62,27 +63,29 @@ export default function ListBooks() {
               type="link"
               onClick={() => navigate(`/books/${record._id}`)}
             >
-              View
+              Xem
             </Button>
             <Button
               color="primary"
               variant="solid"
+              shape="round"
               onClick={() => navigate(`/books/edit/${record._id}`)}
             >
-              Edit
+              <PencilIcon />
             </Button>
             <Popconfirm
-              title="Delete the task"
-              description="Are you sure to delete this task?"
-              okText="Yes"
-              cancelText="No"
+              title="Xóa sách"
+              description="Bạn có chắc chắn muốn xóa sách này?"
+              okText="Có"
+              cancelText="Không"
               onConfirm={() => handleDeleteBook(record._id)}
             >
               <Button
                 variant="dashed"
                 color="danger"
+                shape="round"
               >
-                Delete
+                <TrashIcon />
               </Button>
             </Popconfirm>
           </div>
@@ -94,16 +97,20 @@ export default function ListBooks() {
   return (
     <section className="flex flex-col mx-auto container">
       <Table
+        size="small"
         title={() => (
           <div className="flex justify-between items-center">
             <Input
-              placeholder="Search"
+              placeholder="Tìm kiếm"
               onChange={(e) => setSearch(e.target.value)}
               style={{ width: '300px' }}
+              size="large"
+              prefix={<Search />}
             />
             <Button
               type="primary"
               onClick={() => navigate('/books/add')}
+              size="large"
             >
               Thêm sách
             </Button>
@@ -114,7 +121,7 @@ export default function ListBooks() {
           current: page,
           total: books?.total || 0,
           onChange: (page) => setPage(page),
-          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          showTotal: (total, range) => `${range[0]}-${range[1]} / ${total}`,
         }}
         loading={isLoading}
         dataSource={books?.books || []}

@@ -4,25 +4,25 @@ import CardItem from '../../components/CardItem';
 
 const cardItems = [
   {
-    title: 'Add book',
-    description: 'Add book to library',
-    image: 'https://cdn-icons-png.flaticon.com/512/188/188032.png',
+    title: 'Thêm sách',
+    description: 'Thêm sách vào thư viện',
+    image: 'https://cdn-icons-png.flaticon.com/512/4693/4693731.png ',
     link: '/books/add',
-    backgroundColor: '#f0f7ff',
+    backgroundColor: '#fff7ff',
   },
   {
-    title: 'List books',
-    description: 'List books from library',
-    image: 'https://cdn-icons-png.flaticon.com/512/188/188032.png',
+    title: 'Danh sách sách',
+    description: 'Danh sách sách từ thư viện',
+    image: '/books.png',
     link: '/books/list',
-    backgroundColor: '#f0f7ff',
+    backgroundColor: '#fff7ff',
   },
 ];
 
 export default function Books() {
   const { setName } = useNavStore();
   useEffect(() => {
-    setName('Books management');
+    setName('Quản lý sách');
   }, []);
   return (
     <section className="flex flex-col mx-auto container">

@@ -26,28 +26,30 @@ export type BorrowResponse = {
   pages: number;
 };
 
-export const getBorrows = async (page = 1, limit = 10): Promise<BorrowResponse> => {
-  const response = await axiosInstance.get(`/?page=${page}&limit=${limit}`);
+export const getBorrows = async (page = 1, limit = 10, search = '', borrowDate = ''): Promise<BorrowResponse> => {
+  const response = await axiosInstance.get(
+    `/borrows/?page=${page}&limit=${limit}&search=${search}${borrowDate ? `&borrowDate=${borrowDate}` : ''}`,
+  );
   return response.data;
 };
 
 export const getBorrowById = async (id: string): Promise<Borrow> => {
-  const response = await axiosInstance.get(`/${id}`);
+  const response = await axiosInstance.get(`/borrows/${id}`);
   return response.data;
 };
 
 export const getUserBorrows = async (userId: string): Promise<Borrow[]> => {
-  const response = await axiosInstance.get(`/user/${userId}`);
+  const response = await axiosInstance.get(`/borrows/user/${userId}`);
   return response.data;
 };
 
-export const createBorrow = async (data: { userId: string; bookId: string }) => {
-  const response = await axiosInstance.post('/borrow', data);
+export const createBorrow = async (data: { userId: string; bookId: string; dueDate: string }) => {
+  const response = await axiosInstance.post('/borrows/borrow', data);
   return response.data;
 };
 
 export const returnBook = async (id: string, bookCondition: 'normal' | 'damaged' | 'lost') => {
-  const response = await axiosInstance.put(`/return/${id}`, { bookCondition });
+  const response = await axiosInstance.put(`/borrows/return/${id}`, { bookCondition });
   return response.data;
 };
 

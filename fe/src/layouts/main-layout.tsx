@@ -10,14 +10,14 @@ export default function MainLayout() {
   const navigate = useNavigate();
   const { name, setName } = useNavStore();
   useEffect(() => {
-    setName('Library Management');
+    setName('Quản lý thư viện');
   }, []);
   return (
     <>
-      <section className="mx-auto container py-10">
+      <section className="mx-auto container mb-10">
         <Card
           bodyStyle={{
-            padding: '0.5rem',
+            padding: '1rem',
           }}
         >
           <div className="flex flex-row items-center gap-2">
@@ -29,7 +29,9 @@ export default function MainLayout() {
                 <ArrowLeft className="w-8 h-8" />
               </div>
             )}
-            <span className="text-2xl font-bold">{name}</span>
+            <div className="flex-1 flex items-center justify-center">
+              <span className="text-4xl font-bold">{name}</span>
+            </div>
           </div>
         </Card>
       </section>

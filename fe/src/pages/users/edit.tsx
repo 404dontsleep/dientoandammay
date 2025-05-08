@@ -37,17 +37,16 @@ export default function EditUser() {
   };
 
   if (isLoading) {
-    return <div className="container mx-auto py-4">Loading...</div>;
+    return <div className="container mx-auto py-4">Đang tải...</div>;
   }
 
   return (
-    <section className="flex flex-col mx-auto container">
-      <Card>
+    <div className="container mx-auto py-4">
+      <Card title="Chỉnh sửa người dùng">
         <Form
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
           form={form}
           onFinish={handleSubmit}
+          layout="vertical"
         >
           <Form.Item
             name="name"
@@ -76,18 +75,21 @@ export default function EditUser() {
             name="address"
             label="Địa chỉ"
           >
-            <Input.TextArea rows={4} />
+            <Input />
           </Form.Item>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-            >
-              Cập nhật
-            </Button>
+          <Form.Item>
+            <div className="flex justify-end">
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+              >
+                Cập nhật
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </Card>
-    </section>
+    </div>
   );
 }

@@ -15,21 +15,28 @@ export default function Home() {
           description="Thêm, sửa, xóa và quản lý thông tin người dùng trong hệ thống thư viện"
           image="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
           link="/users"
-          backgroundColor="#f0f7ff"
+          backgroundColor="#fff7ff"
         />
         <CardItem
           title="Quản lý sách"
           description="Thêm, sửa, xóa và quản lý thông tin sách trong hệ thống thư viện"
-          image="https://cdn-icons-png.flaticon.com/512/188/188032.png "
+          image="/book-stack.png"
           link="/books"
-          backgroundColor="#f0f7ff"
+          backgroundColor="#fff7ff"
         />
         <CardItem
           title="Quản lý phiếu mượn"
           description="Thêm, sửa, xóa và quản lý thông tin phiếu mượn trong hệ thống thư viện"
-          image="https://cdn-icons-png.flaticon.com/512/2918/2918687.png "
-          link="/borrow-books"
-          backgroundColor="#f0f7ff"
+          image="/literacy.png "
+          link="/borrows"
+          backgroundColor="#fff7ff"
+        />
+        <CardItem
+          title="Thống kê"
+          description="Thống kê số lượng mượn/trả sách, sách được mượn nhiều nhất, người dùng mượn nhiều nhất"
+          image="/statistics.png"
+          link="/stats"
+          backgroundColor="#fff7ff"
         />
       </div>
     </section>

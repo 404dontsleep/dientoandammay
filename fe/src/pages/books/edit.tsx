@@ -38,7 +38,7 @@ export default function EditBook() {
         ...values,
         publishedYear: values.publishedYear.year(),
       });
-      message.success('Update book successfully');
+      message.success('Cập nhật sách thành công');
       navigate(`/books/list`);
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -64,35 +64,35 @@ export default function EditBook() {
         >
           <Form.Item
             name="title"
-            label="Title"
-            rules={[{ required: true, message: 'Please enter book title' }]}
+            label="Tên sách"
+            rules={[{ required: true, message: 'Vui lòng nhập tên sách' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="author"
-            label="Author"
-            rules={[{ required: true, message: 'Please enter author name' }]}
+            label="Tác giả"
+            rules={[{ required: true, message: 'Vui lòng nhập tên tác giả' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="description"
-            label="Description"
+            label="Mô tả"
           >
             <Input.TextArea rows={4} />
           </Form.Item>
           <Form.Item
             name="publishedYear"
-            label="Published Year"
-            rules={[{ required: true, message: 'Please enter published year' }]}
+            label="Năm xuất bản"
+            rules={[{ required: true, message: 'Vui lòng nhập năm xuất bản' }]}
           >
             <DatePicker picker="year" />
           </Form.Item>
           <Form.Item
             name="quantity"
-            label="Quantity"
-            rules={[{ required: true, message: 'Please enter book quantity' }]}
+            label="Số lượng"
+            rules={[{ required: true, message: 'Vui lòng nhập số lượng sách' }]}
           >
             <InputNumber
               min={0}
@@ -101,8 +101,8 @@ export default function EditBook() {
           </Form.Item>
           <Form.Item
             name="available"
-            label="Available"
-            rules={[{ required: true, message: 'Please enter available quantity' }]}
+            label="Số lượng còn lại"
+            rules={[{ required: true, message: 'Vui lòng nhập số lượng còn lại' }]}
           >
             <InputNumber
               min={0}
@@ -114,7 +114,7 @@ export default function EditBook() {
               type="primary"
               htmlType="submit"
             >
-              Update Book
+              Cập nhật sách
             </Button>
           </Form.Item>
         </Form>

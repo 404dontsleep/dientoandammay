@@ -22,7 +22,7 @@ export default function AddBook() {
           publishedYear: values.publishedYear.year(),
         })
         .then(() => {
-          message.success('Add book successfully');
+          message.success('Thêm sách thành công');
           navigate('/books');
         })
         .catch((error: { message: string; response: { data: { message: string } } }) => {
@@ -38,7 +38,7 @@ export default function AddBook() {
   };
   return (
     <section className="flex flex-col mx-auto container">
-      <Card>
+      <Card title="Thêm sách mới">
         <Form
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
@@ -47,31 +47,36 @@ export default function AddBook() {
         >
           <Form.Item
             name="title"
-            label="Title"
+            label="Tiêu đề"
+            rules={[{ required: true, message: 'Vui lòng nhập tiêu đề sách' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="author"
-            label="Author"
+            label="Tác giả"
+            rules={[{ required: true, message: 'Vui lòng nhập tên tác giả' }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="publishedYear"
-            label="Published Year"
+            label="Năm xuất bản"
+            rules={[{ required: true, message: 'Vui lòng chọn năm xuất bản' }]}
           >
             <DatePicker picker="year" />
           </Form.Item>
           <Form.Item
             name="quantity"
-            label="Quantity"
+            label="Số lượng"
+            rules={[{ required: true, message: 'Vui lòng nhập số lượng sách' }]}
           >
             <InputNumber />
           </Form.Item>
           <Form.Item
             name="description"
-            label="Description"
+            label="Mô tả"
+            rules={[{ required: true, message: 'Vui lòng nhập mô tả sách' }]}
           >
             <Input.TextArea />
           </Form.Item>
@@ -79,8 +84,9 @@ export default function AddBook() {
             <Button
               type="primary"
               htmlType="submit"
+              size="large"
             >
-              Add Book
+              Thêm sách
             </Button>
           </Form.Item>
         </Form>
