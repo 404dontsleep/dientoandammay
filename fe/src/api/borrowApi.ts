@@ -1,0 +1,62 @@
+import axiosInstance from './axiosInstance';
+
+export type Borrow = {
+  _id: string;
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  book: {
+    _id: string;
+    title: string;
+    author: string;
+  };
+  borrowDate: string;
+  dueDate: string;
+  returnDate?: string;
+  status: 'borrowed' | 'returned';
+  bookCondition?: 'normal' | 'damaged' | 'lost';
+};
+
+export type BorrowResponse = {
+  borrows: Borrow[];
+  total: number;
+  page: number;
+  pages: number;
+};
+
+export const getBorrows = async (page = 1, limit = 10): Promise<BorrowResponse> => {
+  const response = await axiosInstance.get(`/?page=${page}&limit=${limit}`);
+  return response.data;
+};
+
+export const getBorrowById = async (id: string): Promise<Borrow> => {
+  const response = await axiosInstance.get(`/${id}`);
+  return response.data;
+};
+
+export const getUserBorrows = async (userId: string): Promise<Borrow[]> => {
+  const response = await axiosInstance.get(`/user/${userId}`);
+  return response.data;
+};
+
+export const createBorrow = async (data: { userId: string; bookId: string }) => {
+  const response = await axiosInstance.post('/borrow', data);
+  return response.data;
+};
+
+export const returnBook = async (id: string, bookCondition: 'normal' | 'damaged' | 'lost') => {
+  const response = await axiosInstance.put(`/return/${id}`, { bookCondition });
+  return response.data;
+};
+
+const borrowApi = {
+  getBorrows,
+  getBorrowById,
+  getUserBorrows,
+  createBorrow,
+  returnBook,
+};
+
+export default borrowApi;

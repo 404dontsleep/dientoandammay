@@ -3,14 +3,16 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 export default function ProductList() {
-  const [books, setBooks] = useState<Awaited<ReturnType<typeof getBooks>>>([]);
+  const [books, setBooks] = useState<
+    Awaited<ReturnType<typeof getBooks>>["books"]
+  >([]);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 500);
   const [error, setError] = useState<string | null>(null);
   const handleDelete = (id: string) => {
     deleteBook(id)
       .then(() => {
-        setBooks(books.filter((book) => book._id !== id));
+        setBooks((books || []).filter((book) => book._id !== id));
         alert("Book deleted successfully");
       })
       .catch((error) => alert(error.message));
@@ -27,7 +29,7 @@ export default function ProductList() {
     } else {
       getBooks()
         .then((data) => {
-          setBooks(data);
+          setBooks(data.books);
         })
         .catch((error) => {
           setError(error.message);

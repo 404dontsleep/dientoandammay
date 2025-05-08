@@ -11,9 +11,10 @@ export default function Product({
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
   const [publishedYear, setPublishedYear] = useState("");
+  const [quantity, setQuantity] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { id } = useParams();
+  const {id} = useParams();
 
   useEffect(() => {
     if (id) {
@@ -22,6 +23,7 @@ export default function Product({
         setAuthor(book.author);
         setDescription(book.description || "");
         setPublishedYear(book.publishedYear.toString());
+        setQuantity(book.quantity);
       });
     }
   }, [id]);
@@ -37,6 +39,8 @@ export default function Product({
       author,
       description,
       publishedYear: Number(publishedYear),
+      quantity,
+      available: quantity,
     };
 
     const promise = action === "edit" ? updateBook(id!, book) : addBook(book);
@@ -121,6 +125,20 @@ export default function Product({
             name="publishedYear"
             value={publishedYear}
             onChange={(e) => setPublishedYear(e.target.value)}
+            disabled={action === "view"}
+            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="quantity" className="text-gray-700 font-semibold">
+            Quantity
+          </label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
             disabled={action === "view"}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

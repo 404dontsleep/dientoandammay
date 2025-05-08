@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const bookRoutes = require("./routes/bookRoutes");
 const userRoutes = require("./routes/userRoutes");
 const borrowRoutes = require("./routes/borrowRoutes");
+const statisticsRoutes = require("./routes/statisticsRoutes");
 
 dotenv.config();
 
