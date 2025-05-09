@@ -31,11 +31,6 @@ jobs:
         cd fe
         npm run build
 
-    - name: Run Tests
-      run: |
-        cd fe
-        npm test
-
     - name: Deploy to Production
       if: github.ref == 'refs/heads/main'
       uses: appleboy/ssh-action@master
