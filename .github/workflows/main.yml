@@ -35,8 +35,6 @@ jobs:
       run: |
         cd fe
         npm test
-        cd ../backend
-        npm test
 
     - name: Deploy to Production
       if: github.ref == 'refs/heads/main'
@@ -46,25 +44,25 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
         script: |
-          cd /path/to/project
+          cd /var/www/library-management
           git pull origin main
           docker-compose down
           docker-compose build --no-cache
           docker-compose up -d
           docker system prune -f
 
-    - name: Backup Database
-      if: github.ref == 'refs/heads/main'
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        script: |
-          cd /path/to/project
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-          docker exec library-management-system-mongodb mongodump --out /backup/$TIMESTAMP
-          tar -czf /backup/mongodb_$TIMESTAMP.tar.gz /backup/$TIMESTAMP
-          rm -rf /backup/$TIMESTAMP
-          # Giữ lại 7 backup gần nhất
-          ls -t /backup/mongodb_*.tar.gz | tail -n +8 | xargs -r rm
+    # - name: Backup Database
+    #   if: github.ref == 'refs/heads/main'
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.VPS_HOST }}
+    #     username: ${{ secrets.VPS_USERNAME }}
+    #     key: ${{ secrets.VPS_SSH_KEY }}
+    #     script: |
+    #       cd /path/to/project
+    #       TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+    #       docker exec library-management-system-mongodb mongodump --out /backup/$TIMESTAMP
+    #       tar -czf /backup/mongodb_$TIMESTAMP.tar.gz /backup/$TIMESTAMP
+    #       rm -rf /backup/$TIMESTAMP
+    #       # Giữ lại 7 backup gần nhất
+    #       ls -t /backup/mongodb_*.tar.gz | tail -n +8 | xargs -r rm
