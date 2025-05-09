@@ -23,10 +23,10 @@ export default function MainLayout() {
           <div className="flex flex-row items-center gap-2">
             {canGoBack && (
               <div
-                className="w-8 h-8 bg-blue-100 rounded-sm cursor-pointer"
+                className="w-8 h-8 bg-blue-100 hover:bg-blue-200 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-300 shadow-sm"
                 onClick={() => navigate(-1)}
               >
-                <ArrowLeft className="w-8 h-8" />
+                <ArrowLeft className="w-5 h-5 text-blue-600" />
               </div>
             )}
             <div className="flex-1 flex items-center justify-center">

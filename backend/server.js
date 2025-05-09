@@ -24,6 +24,11 @@ app.use(
 app.use(express.json());
 app.use(express.static("public"));
 
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 // Routes
 app.use("/api/books", bookRoutes);
 app.use("/api/users", userRoutes);
@@ -45,7 +50,7 @@ app.use((err, req, res, next) => {
 const startServer = async () => {
   try {
     await connectDB();
-    const PORT = process.env.PORT || 5000;
+    const PORT = process.env.BACKEND_PORT || 5000;
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on http://localhost:${PORT}`);
       console.log(`Environment: ${process.env.NODE_ENV || "development"}`);

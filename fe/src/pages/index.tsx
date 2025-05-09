@@ -34,7 +34,7 @@ export default function Home() {
         <CardItem
           title="Thống kê"
           description="Thống kê số lượng mượn/trả sách, sách được mượn nhiều nhất, người dùng mượn nhiều nhất"
-          image="/statistics.png"
+          image="https://cdn-icons-png.flaticon.com/512/921/921591.png "
           link="/stats"
           backgroundColor="#fff7ff"
         />

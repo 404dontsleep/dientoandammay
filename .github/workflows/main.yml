@@ -1,0 +1,70 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install Dependencies
+      run: |
+        cd fe
+        npm install
+        cd ../backend
+        npm install
+
+    - name: Build
+      run: |
+        cd fe
+        npm run build
+
+    - name: Run Tests
+      run: |
+        cd fe
+        npm test
+        cd ../backend
+        npm test
+
+    - name: Deploy to Production
+      if: github.ref == 'refs/heads/main'
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          cd /path/to/project
+          git pull origin main
+          docker-compose down
+          docker-compose build --no-cache
+          docker-compose up -d
+          docker system prune -f
+
+    - name: Backup Database
+      if: github.ref == 'refs/heads/main'
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          cd /path/to/project
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          docker exec library-management-system-mongodb mongodump --out /backup/$TIMESTAMP
+          tar -czf /backup/mongodb_$TIMESTAMP.tar.gz /backup/$TIMESTAMP
+          rm -rf /backup/$TIMESTAMP
+          # Giữ lại 7 backup gần nhất
+          ls -t /backup/mongodb_*.tar.gz | tail -n +8 | xargs -r rm

@@ -7,11 +7,18 @@ services:
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     ports:
       - "27017:27017"
     volumes:
       - library-management-system-mongodb_data:/data/db
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   mongo-express:
     image: mongo-express:latest
@@ -19,14 +26,53 @@ services:
     restart: always
     environment:
       ME_CONFIG_MONGODB_AUTH_USERNAME: root
-      ME_CONFIG_MONGODB_AUTH_PASSWORD: example
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: ${MONGO_PASSWORD}
       ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: admin
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongodb:27017/
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://root:${MONGO_PASSWORD}@mongodb:27017/
     ports:
       - "8081:8081"
     depends_on:
       - mongodb
+    networks:
+      - app-network
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: library-management-system-backend
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - MONGO_URI=mongodb://root:${MONGO_PASSWORD}@mongodb:27017
+      - JWT_SECRET=${JWT_SECRET}
+      - BACKEND_PORT=${BACKEND_PORT}
+      - FRONTEND_URL=${FRONTEND_URL}
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./fe
+      dockerfile: Dockerfile
+    container_name: library-management-system-frontend
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
   nginx:
     container_name: library-management-system-nginx
     image: 'jc21/nginx-proxy-manager:latest'
@@ -38,5 +84,15 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - app-network
+    depends_on:
+      - frontend
+      - backend
+
+networks:
+  app-network:
+    driver: bridge
+
 volumes:
-  library-management-system-mongodb_data: 
+  library-management-system-mongodb_data:
