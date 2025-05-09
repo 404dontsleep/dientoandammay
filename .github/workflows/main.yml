@@ -34,6 +34,19 @@ jobs:
         script_stop: true
         script: |
           cd /var/www/library-management
+          
+          # Tạo file .env
+          cat > .env << EOL
+          BACKEND_PORT=${{ secrets.BACKEND_PORT }}
+          FRONTEND_URL=${{ secrets.FRONTEND_URL }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          MONGO_EXPRESS_PASSWORD=${{ secrets.MONGO_EXPRESS_PASSWORD }}
+          MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}
+          MONGO_URI=${{ secrets.MONGO_URI }}
+          NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+          NODE_ENV=production
+          EOL
+          
           git pull origin main
           docker compose down
           docker compose build --no-cache
