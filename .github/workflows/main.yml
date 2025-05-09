@@ -13,24 +13,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-
-    - name: Install Dependencies
+    - name: Check VPS_HOST Secret
       run: |
-        cd fe
-        npm install
-        cd ../backend
-        npm install
-
-    - name: Build
-      run: |
-        cd fe
-        npm run build
-
+        if [ -z "${{ secrets.VPS_HOST }}" ]; then
+          echo "Error: VPS_HOST secret is not set or empty"
+          exit 1
+        else
+          echo "VPS_HOST is properly configured: ${{ secrets.VPS_HOST }}"
+        fi
+        
     - name: Deploy to Production
       if: github.ref == 'refs/heads/main'
       uses: appleboy/ssh-action@master
@@ -38,6 +29,8 @@ jobs:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
+        port: 22
+        script_stop: true
         script: |
           cd /var/www/library-management
           git pull origin main
